@@ -1,49 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
 
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  
-  <title>Frontend Mentor | Interactive rating component</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+    <script src="script.js" defer></script>
 
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
-</head>
-<body>
+    <title>Frontend Mentor | Interactive rating component</title>
 
-  <!-- Rating state start -->
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Overpass:wght@400;700&display=swap");
 
-  How did we do?
+      .attribution {
+        font-size: 11px;
+        text-align: center;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        background: white;
+      }
+      .attribution a {
+        color: hsl(228, 45%, 44%);
+      }
 
-  Please let us know how we did with your support request. All feedback is appreciated 
-  to help us improve our offering!
+      :root {
+        --primary-color: hsl(25, 97%, 53%);
+        --white-color: hsl(0, 0%, 100%);
+        --light-grey: hsl(217, 12%, 63%);
+        --medium-grey: hsl(216, 12%, 54%);
+        --dark-blue: hsl(213, 19%, 18%);
+        --very-dark-blue: hsl(216, 12%, 8%);
+      }
 
-  1 2 3 4 5
+      html {
+        font-family: "Overpass", sans-serif;
+      }
 
-  Submit
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-  <!-- Rating state end -->
+      body {
+        height: 100vh;
+        background-color: var(--very-dark-blue);
 
-  <!-- Thank you state start -->
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-  You selected <!-- Add rating here --> out of 5
+      ul {
+        list-style: none;
+      }
 
-  Thank you!
+      #off {
+        display: none;
+      }
 
-  We appreciate you taking the time to give a rating. If you ever need more support, 
-  don’t hesitate to get in touch!
+      #on {
+        display: inherit;
+      }
 
-  <!-- Thank you state end -->
+      /* Default Modal (Before Submit) */
 
-  
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div>
-</body>
+      div.container {
+        background-color: var(--dark-blue);
+        color: hsl(0, 0%, 100%);
+        width: 500px;
+        height: 460px;
+
+        padding: 25px 50px 20px 50px;
+        border-radius: 15px;
+
+        display: flex;
+      }
+
+      div.initial-modal {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      div.container .title {
+        position: relative;
+        bottom: 13px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+
+        --dark-blue: hsl(213, 19%, 25%);
+        background-color: var(--dark-blue);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      div.container button {
+        font-family: "Overpass", sans-serif;
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+
+        padding: 14px;
+        border: none;
+        border-radius: 30px;
+        background-color: var(--primary-color);
+        color: var(--white-color);
+
+        cursor: pointer;
+      }
+
+      div.container button:hover {
+        transition: 0.5s;
+        background-color: var(--white-color);
+        color: var(--primary-color);
+      }
+
+      div.container h1 {
+        font-size: 1.7rem;
+      }
+
+      div.container p {
+        font-size: 1.1rem;
+        margin: 10px 0;
+        line-height: 1.9rem;
+      }
+
+      div.rating ul {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      div.rating ul li {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      div.rating label {
+        position: absolute;
+        left: 24px;
+        bottom: 27px;
+        font-size: 1.3rem;
+        opacity: 0.7;
+      }
+
+      div.rating li:first-child label {
+        left: 26px;
+      }
+
+      input[type="radio"] {
+        appearance: none;
+        outline: none;
+        border: none;
+        background: hsl(213, 19%, 22%);
+        border-radius: 50%;
+
+        width: 60px;
+        height: 60px;
+        vertical-align: middle;
+        margin-bottom: 12px;
+      }
+
+      input[type="radio"]:hover {
+        background: hsla(213, 19%, 50%, 0.521);
+      }
+
+      input[type="radio"]:checked {
+        transition: 0.5s;
+        background: hsl(25, 97%, 53%);
+      }
+
+      /* Changed Modal (After Submit) */
+      div.state-modal {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        text-align: center;
+      }
+
+      div.state-modal img {
+        width: 180px;
+      }
+
+      div.state-modal p:first-of-type {
+        font-size: 1rem;
+        border-radius: 25px;
+        background-color: hsl(213, 19%, 20%);
+        color: hsl(25, 97%, 53%);
+        padding: 4px 22px;
+        margin: 25px 0px;
+      }
+
+      @media only screen and (max-width: 500px) {
+        body {
+          background-color: lightblue;
+        }
+
+        div.container {
+          height: 500px;
+          transform: scale(0.7);
+        }
+
+        div.rating label {
+          position: absolute;
+          left: 19px;
+          bottom: 22px;
+          font-size: 1.3rem;
+          opacity: 0.7;
+        }
+
+        div.rating li:first-child label {
+          left: 21px;
+        }
+
+        input[type="radio"] {
+          appearance: none;
+          outline: none;
+          border: none;
+          background: hsl(213, 19%, 22%);
+          border-radius: 50%;
+
+          width: 50px;
+          height: 50px;
+          vertical-align: middle;
+          margin-bottom: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="on" class="initial-modal">
+        <div class="title">
+          <img src="./images/icon-star.svg" alt="" />
+        </div>
+        <div class="description">
+          <h1>How did we do?</h1>
+          <p>
+            Please let us know how we did with your support request. All
+            feedback is appreciated to help us improve our offering!
+          </p>
+        </div>
+        <div class="rating">
+          <ul>
+            <li>
+              <label for="one">1</label>
+              <input type="radio" name="rates" id="one" value="1" />
+            </li>
+            <li>
+              <label for="two">2</label>
+              <input type="radio" name="rates" id="two" value="2" />
+            </li>
+            <li>
+              <label for="three">3</label>
+              <input type="radio" name="rates" id="three" value="3" />
+            </li>
+            <li>
+              <label for="four">4</label>
+              <input type="radio" name="rates" id="four" value="4" />
+            </li>
+            <li>
+              <label for="five">5</label>
+              <input type="radio" name="rates" id="five" value="5" />
+            </li>
+          </ul>
+        </div>
+        <button class="submit-button">Submit</button>
+      </div>
+
+      <div id="off" class="state-modal">
+        <img src="./images/illustration-thank-you.svg" alt="" />
+        <p>You selected <span id="selected-rate">4</span> out of 5</p>
+        <h1>Thank You!</h1>
+        <p>
+          We appreciate you taking the time to give a rating. If you ever need
+          more support, don't hesitate to get in touch!
+        </p>
+      </div>
+    </div>
+
+    <div class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="#">Your Name Here</a>.
+    </div>
+  </body>
 </html>
+
+<!-- 
+
+     
+ -->
